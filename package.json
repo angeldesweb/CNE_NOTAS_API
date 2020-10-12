@@ -37,7 +37,7 @@
   "scripts": {
     "babel-node": "babel-node src/index.js --presets env",
     "dev": "nodemon --exec npm run babel-node",
-    "start": "babel-node src/index.js --presets env",
+    "start": "babel-node index.js --presets env",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
