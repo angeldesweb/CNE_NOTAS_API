@@ -20,11 +20,12 @@ export default {
         }
     },
     Mutation : {
-        SignIn : async (parent,args)=>{
+        signIn : async (parent,args)=>{
+
             const response = await SignIn(args);
             return response;
         },
-        SignUp : async (parent,args)=>{
+        signUp : async (parent,args)=>{
             const response = await SignUp(args);
             return response;
         },

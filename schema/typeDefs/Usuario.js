@@ -27,8 +27,8 @@ type Query {
 }
 
 type Mutation {
-    SignUp(tipoCedula:String!,cedula:String!,nombre:String!,password:String!,email:String!,role:String!):UsuarioResponse!
-    SignIn(tipoCedula:String,cedula:String!,password:String!):UsuarioResponse!
+    signUp(tipoCedula:String!,cedula:String!,nombre:String!,password:String!,email:String!,role:String!):UsuarioResponse!
+    signIn(tipoCedula:String,cedula:String!,password:String!):UsuarioResponse!
     updateUsuario(_id:ID!,tipoCedula:String,cedula:String,nombre:String,password:String,email:String,role:String):UsuarioResponse!
     deleteUsuario(_id:ID!):UsuarioResponse!
 }

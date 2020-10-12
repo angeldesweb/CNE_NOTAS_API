@@ -1,8 +1,9 @@
+require('dotenv').config()
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import Usuario from '../models/Usuario';
 
-const secret = process.env.SECRET_TOKEN
+const secret = process.env.SECRET_TOKEN;
 
 const auth = {
     checkHeaders: async (req,res,next)=>{
@@ -43,8 +44,8 @@ const auth = {
             token:newToken
         }
     },
-    createToken : (usuario)=>{
-        const newToken = jwt.sign({usuario:usuario._id},secret,{expiresIn:'5d'});
+    createToken : async (usuario)=>{
+        const newToken = await jwt.sign({usuario:usuario._id},secret,{expiresIn:'5d'});
         return [newToken] 
     },
     login : async(args)=>{

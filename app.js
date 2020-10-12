@@ -1,3 +1,4 @@
+require('dotenv').config()
 import express from 'express';
 import graphQLHTTP from 'express-graphql';
 import cors from 'cors';
