@@ -3,7 +3,7 @@ import mkdirp from 'mkdirp'
 import shortid from 'shortid'
 import {
     createFicha,readAllFichas,readFichaById,readSomeFichas,updateFicha,deleteFicha
-} from '../../controllers/Fichas';
+} from '../../controllers/fichas';
 
 //Carpeta local de imágenes
 const uploadDir = './uploads'
