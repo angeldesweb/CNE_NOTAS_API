@@ -2,9 +2,10 @@ import express from 'express';
 import graphQLHTTP from 'express-graphql';
 import cors from 'cors';
 import schema from './schema';
-import {SECRET} from './config';
 import bodyParser from 'body-parser';
 import { graphqlUploadExpress } from 'graphql-upload';
+
+const secret = process.env.SECRET_TOKEN
 
 const app = express();
 
@@ -17,7 +18,7 @@ app.use('/graphql',cors(),bodyParser.json(),bodyParser.urlencoded({extended:true
         graphiql:true,
         schema,
         context:{
-            SECRET,
+            secret,
             usuario:req.usuario
         }
     }

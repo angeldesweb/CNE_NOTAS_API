@@ -1,16 +1,15 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import {SECRET} from '../config';
 import Usuario from '../models/Usuario';
 
-
+const secret = process.env.SECRET_TOKEN
 
 const auth = {
     checkHeaders: async (req,res,next)=>{
         const token = req.headers["x-token"];
         if(token){
             try {
-                const {user} = await jwt.verify(token,SECRET)
+                const {user} = await jwt.verify(token,secret)
                 console.log('user linea 11', user)
                 req.user = user
             } catch (error) {
@@ -31,7 +30,7 @@ const auth = {
         console.log(token)
         let idUser = null
         try {
-            const {user} = await jwt.decode(token,SECRET);
+            const {user} = await jwt.decode(token,secret);
             console.log('Linea 28',user)
             idUser = user
         } catch (error) {
@@ -45,7 +44,7 @@ const auth = {
         }
     },
     createToken : (usuario)=>{
-        const newToken = jwt.sign({usuario:usuario._id},SECRET,{expiresIn:'5d'});
+        const newToken = jwt.sign({usuario:usuario._id},secret,{expiresIn:'5d'});
         return [newToken] 
     },
     login : async(args)=>{
