@@ -4,13 +4,15 @@ import cors from 'cors';
 import schema from './schema';
 import {SECRET} from './config';
 import bodyParser from 'body-parser';
+import { graphqlUploadExpress } from 'graphql-upload';
 
 const app = express();
 
-
 app.use(cors())
 
-app.use('/graphql',bodyParser.json(),bodyParser.urlencoded({extended:true}),graphQLHTTP((req)=>{
+app.use(express.static('uploads'))
+
+app.use('/graphql',cors(),bodyParser.json(),bodyParser.urlencoded({extended:true}),graphqlUploadExpress(),graphQLHTTP((req)=>{
     return {
         graphiql:true,
         schema,

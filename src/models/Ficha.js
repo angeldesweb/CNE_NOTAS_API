@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import moment from 'moment'
 
 const Schema = mongoose.Schema;
 
@@ -7,9 +8,9 @@ const Ficha = new Schema({
     titulo:{type:String,required:true},
     tipoInfo:{type:String,required:true},
     postedAt:{type:Date,required:true},
-    createdAt:{type:Date,default:Date.now()},
+    createdAt:{type:Date,default:moment()},
     resumen:{type:String,required:true},
-    fuente:{type:Schema.ObjectId,ref:'Fuente'},
+    fuente:{type:String,required:true},
     author:{type:String,required:true},
     image:{type:String},
     postedBy:{type:Schema.ObjectId,ref:'Usuario'},

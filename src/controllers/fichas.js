@@ -1,4 +1,5 @@
 import {Ficha} from '../models';
+import {formatErrors} from './Errors';
 
 const createFicha = async (args)=>{
     const ficha = new Ficha(args);
@@ -14,14 +15,14 @@ const createFicha = async (args)=>{
         return {
             status:500,
             success:false,
-            message:'Se encontraron errores'
+            message:formatErrors({errors:response.errors})
         }
     }
 }
 
 const readAllFichas = async ()=>{
     try {
-        const fichas = await Ficha.find().populate('fuente').populate('clasificacion')
+        const fichas = await Ficha.find().populate('clasificacion').populate('postedBy')
         if(!fichas.length){
             return {
                 status:404,
@@ -39,7 +40,7 @@ const readAllFichas = async ()=>{
         return {
             status:500,
             success:false,
-            message:'Se encontraron errores'
+            message:formatErrors({errors:response.errors})
         }
     }
 }
@@ -47,7 +48,7 @@ const readAllFichas = async ()=>{
 const readFichaById = async (args)=>{
     let fichaid = args._id;
     try {
-        const ficha = await Ficha.findById(fichaid).populate('fuente').populate('clasificacion')
+        const ficha = await Ficha.findById(fichaid).populate('clasificacion').populate('postedBy')
         if(!ficha){
             return{
                 status:404,
@@ -65,14 +66,14 @@ const readFichaById = async (args)=>{
         return {
             status:500,
             success:false,
-            message:'Se han encontrado errores'
+            message:formatErrors({errors:response.errors})
         }
     }
 }
 
 const readSomeFichas = async (args)=>{
     try {
-        const fichas = await Ficha.find().where(args.key).equals(args.value).populate('fuente').populate('clasificacion')
+        const fichas = await Ficha.find().where(args.key).equals(args.value).populate('clasificacion').populate('postedBy')
         if(!fichas.length){
             return {
                 status:404,
@@ -90,7 +91,7 @@ const readSomeFichas = async (args)=>{
         return {
             status:500,
             success:false,
-            message:'Se han encontrado errores'
+            message:formatErrors({errors:response.errors})
         }
     }
 }
@@ -110,7 +111,7 @@ const updateFicha = async (args)=>{
         return {
             status:500,
             success:false,
-            message:'Se han encontrado errores'
+            message:formatErrors({errors:response.errors})
         }
     }
 }
@@ -136,7 +137,7 @@ const deleteFicha = async (args)=>{
         return {
             status:500,
             success:false,
-            message:'Se han encontrado errores'
+            message:formatErrors({errors:response.errors})
         }
     }
 }
