@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@graphql-tools/load-files": "^6.2.4",
+    "@graphql-tools/merge": "^6.2.4",
     "apollo-resolvers": "^1.4.2",
     "apollo-server": "^2.18.1",
     "apollo-server-express": "^2.18.1",
@@ -35,7 +37,7 @@
   "scripts": {
     "babel-node": "babel-node src/index.js --presets env",
     "dev": "nodemon --exec npm run babel-node",
-    "start":"babel-node src/index.js --presets env",
+    "start": "babel-node src/index.js --presets env",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

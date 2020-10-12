@@ -1,9 +1,10 @@
+import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
+import { loadFilesSync } from '@graphql-tools/load-files';
 import {makeExecutableSchema} from 'graphql-tools';
-import {fileLoader,mergeTypes,mergeResolvers} from 'merge-graphql-schemas';
 import path from 'path';
 
-const typeDefs = mergeTypes(fileLoader(path.join(__dirname,'./typeDefs')))
-const resolvers = mergeResolvers(fileLoader(path.join(__dirname,'./resolvers')))
+const typeDefs = mergeTypeDefs(loadFilesSync(path.join(__dirname,'./typeDefs')))
+const resolvers = mergeResolvers(loadFilesSync(path.join(__dirname,'./resolvers')))
 
 export default makeExecutableSchema({
     typeDefs,
