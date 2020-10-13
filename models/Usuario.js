@@ -3,7 +3,7 @@ import mongoose, { deleteModel } from 'mongoose'
 const Schema = mongoose.Schema;
 
 const Usuario = new Schema({
-    tipoCedula:{type:String,required:true},
+    tipoCedula:{type:String},
     cedula:{type:String,required:true,unique:true},
     nombre:{type:String,required:true},
     password:{type:String,required:true},
