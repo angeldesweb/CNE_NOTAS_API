@@ -1,7 +1,4 @@
 require('dotenv').config();
-import fs from 'fs';
-import mkdirp from 'mkdirp'
-import shortid from 'shortid'
 import cloudinary from 'cloudinary'
 import {
     createFicha,readAllFichas,readFichaById,readSomeFichas,updateFicha,deleteFicha
@@ -18,7 +15,7 @@ const processUpload = async upload =>{
     });
     
     return new Promise((resolve,reject) => {
-        const cloudStream = cloudinary.v2.uploader.upload_stream({folder:'CNE'},function(err,fileUploaded){
+        const cloudStream = cloudinary.v2.uploader.upload_stream({folder:process.env.FOLDER},function(err,fileUploaded){
             if (err) {
                 reject(err);
             }
