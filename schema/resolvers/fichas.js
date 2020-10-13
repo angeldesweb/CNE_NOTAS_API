@@ -1,48 +1,34 @@
+require('dotenv').config();
 import fs from 'fs';
 import mkdirp from 'mkdirp'
 import shortid from 'shortid'
+import cloudinary from 'cloudinary'
 import {
     createFicha,readAllFichas,readFichaById,readSomeFichas,updateFicha,deleteFicha
 } from '../../controllers/fichas';
 
-//Carpeta local de imágenes
-const uploadDir = './uploads'
-
-mkdirp.sync(uploadDir)
-
-//Almacenamiento local
-const storeFS = async ({ stream , filename })=>{
-    const id = shortid.generate();
-    const link = `${uploadDir}/${id}-${filename}`;
-    const path = `${id}-${filename}`;
-    stream.on('error',error=>{
-        if(stream.truncated) fs.unlinkSync(link);
-        throw new Error(error)
-    })
-    try {
-        await stream.pipe(fs.createWriteStream(link));
-    } catch (error) {
-        return error
-    }
-    return { id , path }
-}
-
-//Procesador del UPLOAD
-const processUpload = async upload => {
-    const { filename , mimetype , encoding , createReadStream} = await upload.file
-    const stream = await createReadStream()
+const processUpload = async upload =>{
+    const { createReadStream } = await upload.file;
+    const fileStream = createReadStream();
+    cloudinary.v2.config({
+        cloud_name:process.env.CLOUDINARY_CLOUD_NAME,
+        api_key:process.env.CLOUDINARY_API_KEY,
+        api_secret:process.env.CLOUDINARY_API_SECRET,
+        upload_preset:process.env.CLOUDINARY_UPLOAD_PRESET
+    });
     
-    const { id , path } = await storeFS({ stream , filename })
-
-    return ({ id , path , filename , mimetype , encoding })
+    return new Promise((resolve,reject) => {
+        const cloudStream = cloudinary.v2.uploader.upload_stream({folder:'CNE'},function(err,fileUploaded){
+            if (err) {
+                reject(err);
+            }
+            resolve(fileUploaded);
+        });
+        fileStream.pipe(cloudStream);
+    })
 }
-
 export default {
     Query : {
-        uploads : async(parent,args)=>{
-            const images = await fs.readFile()
-            return images
-        },
         allFichas : async (parent,args)=>{
             const response = await readAllFichas();
             return response;
@@ -62,8 +48,10 @@ export default {
             return response;
         },
         singleUpload: async (parent, { file } ) => {
-            const { id , path , filename , mimetype , encoding } = await processUpload(file.file)
-            return {id,path,filename,mimetype,encoding}
+            console.log(file)
+            const response = await processUpload(file.file)
+            const {public_id,secure_url} = response
+            return {id:public_id,url:secure_url}
         },
         updateFicha : async (parent,args)=>{
             const response = await updateFicha(args);
