@@ -15,6 +15,7 @@ app.use(cors())
 app.use(express.static('uploads'))
 
 app.use('/graphql',cors(),bodyParser.json(),bodyParser.urlencoded({extended:true}),graphqlUploadExpress(),graphQLHTTP((req)=>{
+    console.log(JSON.stringify(req.body))
     return {
         graphiql:true,
         schema,
